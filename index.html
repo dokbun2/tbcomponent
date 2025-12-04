@@ -62,12 +62,12 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 12px;
+      padding: 8px 16px;
       background: linear-gradient(135deg, #6366f1, #8b5cf6);
       color: #fff;
       text-decoration: none;
-      border-radius: 6px;
-      font-size: 13px;
+      border-radius: 8px;
+      font-size: 14px;
       font-weight: 500;
       transition: all 0.2s ease;
     }
@@ -82,67 +82,36 @@
       flex-shrink: 0;
     }
 
+    /* 코드 입력 버튼 (분석 버튼과 동일 크기) */
+    .input-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: #262626;
+      color: #e5e5e5;
+      border: 1px solid #404040;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .input-btn:hover {
+      background: #333;
+      border-color: #525252;
+      color: #fff;
+    }
+
+    .input-btn svg {
+      flex-shrink: 0;
+    }
+
     .toolbar-right {
       display: flex;
       align-items: center;
       gap: 12px;
-    }
-
-    /* 호버 버튼 스타일 (사용자 제공) */
-    .hover-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      height: 40px;
-      padding: 0px 16px 0px 12px;
-      background-color: rgb(229, 229, 229);
-      color: rgb(0, 0, 0);
-      border: none;
-      border-radius: 9999px;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .hover-btn:hover {
-      background-color: rgb(0, 0, 0);
-      color: rgb(255, 255, 255);
-      padding-left: 8px;
-    }
-
-    .hover-btn .icon-circle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-      padding: 4px;
-      background-color: rgb(0, 0, 0);
-      border-radius: 9999px;
-      transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .hover-btn:hover .icon-circle {
-      background-color: rgb(255, 255, 255);
-    }
-
-    .hover-btn .arrow {
-      width: 0;
-      height: 0;
-      color: transparent;
-      transform: translateX(-200%);
-      transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .hover-btn:hover .arrow {
-      width: 16px;
-      height: 16px;
-      color: rgb(0, 0, 0);
-      transform: translateX(0);
     }
 
     /* 분석 버튼 (violet 스타일) */
@@ -779,16 +748,9 @@
         order: 2;
       }
 
-      .hover-btn {
-        order: 3;
-        font-size: 14px;
-        height: 36px;
-        padding: 0 12px 0 10px;
-      }
-
-      .hover-btn .icon-circle {
-        width: 20px;
-        height: 20px;
+      .input-btn {
+        font-size: 13px;
+        padding: 6px 12px;
       }
 
       .analyze-btn {
@@ -880,7 +842,11 @@
         font-size: 16px;
       }
 
-      .hover-btn span:last-child {
+      .input-btn span {
+        display: none;
+      }
+
+      .recommend-btn span {
         display: none;
       }
 
@@ -903,26 +869,15 @@
     <div class="toolbar">
       <div class="toolbar-left">
         <a href="index.html" class="logo">TB Component Viewer</a>
-        <a href="https://www.hover.dev/" target="_blank" class="recommend-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <line x1="10" y1="14" x2="21" y2="3"></line>
-          </svg>
-          <span>추천사이트</span>
-        </a>
       </div>
 
       <div class="toolbar-right">
         <!-- 코드 입력 버튼 -->
-        <button class="hover-btn" id="openModalBtn">
-          <span class="icon-circle">
-            <svg class="arrow" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24"
-              stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <polyline points="19 12 12 19 5 12"></polyline>
-            </svg>
-          </span>
+        <button class="input-btn" id="openModalBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
           <span>코드 입력</span>
         </button>
 
@@ -933,6 +888,16 @@
 
         <!-- 결과 보기 버튼 (분석 후 표시) -->
         <button class="result-btn hidden" id="viewResultBtn">결과 보기</button>
+
+        <!-- 추천사이트 버튼 -->
+        <a href="https://www.hover.dev/" target="_blank" class="recommend-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          <span>추천사이트</span>
+        </a>
       </div>
     </div>
 
