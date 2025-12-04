@@ -1,0 +1,12 @@
+# Python
+*.py
+__pycache__/
+*.pyc
+
+# Screenshots and test files
+*.png
+demo.html
+shifting-dropdown.html
+
+# OS files
+.DS_Store
