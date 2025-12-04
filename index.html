@@ -138,30 +138,73 @@
       height: 100%;
     }
 
-    /* 코드 입력 버튼 (헤더) */
+    /* 코드 입력 버튼 (Encrypt 스타일) */
     .input-btn {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       padding: 8px 16px;
-      background: #262626;
-      color: #e5e5e5;
-      border: 1px solid #404040;
+      background: #404040;
+      color: #d4d4d4;
+      border: 1px solid #525252;
       border-radius: 8px;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
       font-size: 14px;
       font-weight: 500;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.2s ease;
+      overflow: hidden;
+      transition: color 0.3s ease, transform 0.1s ease;
     }
 
     .input-btn:hover {
-      background: #333;
-      border-color: #525252;
-      color: #fff;
+      color: #a5b4fc;
+    }
+
+    .input-btn:active {
+      transform: scale(0.975);
+    }
+
+    .input-btn .btn-content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .input-btn svg {
       flex-shrink: 0;
+    }
+
+    /* 글리치 그라데이션 효과 */
+    .input-btn .glitch-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      transform: scaleX(1.25) scaleY(1.25);
+      background: linear-gradient(to top,
+        transparent 40%,
+        rgba(129, 140, 248, 0.8) 50%,
+        transparent 60%
+      );
+      opacity: 0;
+      animation: glitch-move 1s linear infinite;
+      transition: opacity 0.3s ease;
+    }
+
+    .input-btn:hover .glitch-bg {
+      opacity: 1;
+    }
+
+    @keyframes glitch-move {
+      0% {
+        transform: scaleX(1.25) scaleY(1.25) translateY(100%);
+      }
+      100% {
+        transform: scaleX(1.25) scaleY(1.25) translateY(-100%);
+      }
     }
 
     .toolbar-right {
@@ -1002,12 +1045,16 @@
         font-size: 16px;
       }
 
-      .input-btn span {
+      .input-btn .encrypt-text {
         display: none;
       }
 
       .input-btn {
         padding: 6px 10px;
+      }
+
+      .input-btn .glitch-bg {
+        display: none;
       }
 
       .recommend-btn > span:first-child {
@@ -1047,11 +1094,14 @@
       <div class="toolbar-right">
         <!-- 코드 입력 버튼 -->
         <button class="input-btn" id="openModalBtn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="16 18 22 12 16 6"></polyline>
-            <polyline points="8 6 2 12 8 18"></polyline>
-          </svg>
-          <span>코드 입력</span>
+          <div class="btn-content">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+            <span class="encrypt-text">코드 입력</span>
+          </div>
+          <span class="glitch-bg"></span>
         </button>
 
         <!-- 분석 버튼 -->
@@ -1279,6 +1329,43 @@
 
     openModalBtn.addEventListener('click', openModal);
     emptyAddBtn.addEventListener('click', openModal);
+
+    // Encrypt 텍스트 스크램블 효과
+    const encryptText = document.querySelector('.encrypt-text');
+    const TARGET_TEXT = '코드 입력';
+    const CHARS = '!@#$%^&*():{};|,.<>/?가나다라마바사아자차카타파하';
+    const CYCLES_PER_LETTER = 2;
+    const SHUFFLE_TIME = 50;
+    let scrambleInterval = null;
+
+    function scrambleText() {
+      let pos = 0;
+      scrambleInterval = setInterval(() => {
+        const scrambled = TARGET_TEXT.split('')
+          .map((char, index) => {
+            if (pos / CYCLES_PER_LETTER > index) {
+              return char;
+            }
+            if (char === ' ') return ' ';
+            const randomChar = CHARS[Math.floor(Math.random() * CHARS.length)];
+            return randomChar;
+          })
+          .join('');
+        encryptText.textContent = scrambled;
+        pos++;
+        if (pos >= TARGET_TEXT.length * CYCLES_PER_LETTER) {
+          stopScramble();
+        }
+      }, SHUFFLE_TIME);
+    }
+
+    function stopScramble() {
+      clearInterval(scrambleInterval);
+      encryptText.textContent = TARGET_TEXT;
+    }
+
+    openModalBtn.addEventListener('mouseenter', scrambleText);
+    openModalBtn.addEventListener('mouseleave', stopScramble);
     modalClose.addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', (e) => {
       if (e.target === modalOverlay) closeModal();
