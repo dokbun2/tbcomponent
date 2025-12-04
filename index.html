@@ -138,30 +138,66 @@
       height: 100%;
     }
 
-    /* 코드 입력 버튼 (분석 버튼과 동일 크기) */
+    /* 코드 입력 버튼 (호버 애니메이션) */
     .input-btn {
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      background: #262626;
-      color: #e5e5e5;
-      border: 1px solid #404040;
-      border-radius: 8px;
+      gap: 8px;
+      height: 40px;
+      padding: 0 16px 0 12px;
+      background: #e5e5e5;
+      color: #000;
+      border: none;
+      border-radius: 9999px;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 400;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .input-btn:hover {
-      background: #333;
-      border-color: #525252;
+      background: #000;
       color: #fff;
+      padding-left: 8px;
     }
 
-    .input-btn svg {
-      flex-shrink: 0;
+    .input-btn:active {
+      background: #404040;
+    }
+
+    .input-btn .icon-circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      background: #000;
+      border-radius: 9999px;
+      transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .input-btn:hover .icon-circle {
+      background: #fff;
+    }
+
+    .input-btn .arrow-icon {
+      width: 0;
+      height: 0;
+      font-size: 0;
+      color: transparent;
+      transform: translateX(-200%);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .input-btn:hover .arrow-icon {
+      width: 1em;
+      height: 1em;
+      font-size: 16px;
+      color: #000;
+      transform: translateX(0);
+    }
+
+    .input-btn:active .arrow-icon {
+      transform: rotate(-45deg);
     }
 
     .toolbar-right {
@@ -805,8 +841,13 @@
       }
 
       .input-btn {
+        height: 36px;
         font-size: 13px;
-        padding: 6px 12px;
+        padding: 0 12px 0 8px;
+      }
+
+      .input-btn .icon-circle {
+        padding: 3px;
       }
 
       .analyze-btn {
@@ -898,8 +939,12 @@
         font-size: 16px;
       }
 
-      .input-btn span {
+      .input-btn > span:last-child {
         display: none;
+      }
+
+      .input-btn {
+        padding: 0 8px;
       }
 
       .recommend-btn > span:first-child {
@@ -939,10 +984,12 @@
       <div class="toolbar-right">
         <!-- 코드 입력 버튼 -->
         <button class="input-btn" id="openModalBtn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="16 18 22 12 16 6"></polyline>
-            <polyline points="8 6 2 12 8 18"></polyline>
-          </svg>
+          <span class="icon-circle">
+            <svg class="arrow-icon" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
           <span>코드 입력</span>
         </button>
 
