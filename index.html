@@ -57,29 +57,85 @@
       opacity: 0.8;
     }
 
-    /* 추천사이트 버튼 */
+    /* 추천사이트 버튼 (Draw Outline 스타일) */
     .recommend-btn {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 6px;
       padding: 8px 16px;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      color: #fff;
+      background: transparent;
+      color: #f1f5f9;
       text-decoration: none;
-      border-radius: 8px;
       font-size: 14px;
       font-weight: 500;
-      transition: all 0.2s ease;
+      transition: color 0.4s ease;
     }
 
     .recommend-btn:hover {
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+      color: #a5b4fc;
     }
 
     .recommend-btn svg {
       flex-shrink: 0;
+      transition: color 0.4s ease;
+    }
+
+    /* Draw outline 효과 */
+    .recommend-btn .line-top {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 2px;
+      width: 0;
+      background: #a5b4fc;
+      transition: width 0.1s ease;
+    }
+
+    .recommend-btn:hover .line-top {
+      width: 100%;
+    }
+
+    .recommend-btn .line-right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 0;
+      width: 2px;
+      background: #a5b4fc;
+      transition: height 0.1s ease 0.1s;
+    }
+
+    .recommend-btn:hover .line-right {
+      height: 100%;
+    }
+
+    .recommend-btn .line-bottom {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      height: 2px;
+      width: 0;
+      background: #a5b4fc;
+      transition: width 0.1s ease 0.2s;
+    }
+
+    .recommend-btn:hover .line-bottom {
+      width: 100%;
+    }
+
+    .recommend-btn .line-left {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 0;
+      width: 2px;
+      background: #a5b4fc;
+      transition: height 0.1s ease 0.3s;
+    }
+
+    .recommend-btn:hover .line-left {
+      height: 100%;
     }
 
     /* 코드 입력 버튼 (분석 버튼과 동일 크기) */
@@ -846,8 +902,17 @@
         display: none;
       }
 
-      .recommend-btn span {
+      .recommend-btn > span:first-child {
         display: none;
+      }
+
+      .recommend-btn {
+        padding: 6px 10px;
+      }
+
+      .recommend-btn::after {
+        content: "추천";
+        font-size: 12px;
       }
 
       .analyze-btn {
@@ -891,12 +956,12 @@
 
         <!-- 추천사이트 버튼 -->
         <a href="https://www.hover.dev/" target="_blank" class="recommend-btn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <line x1="10" y1="14" x2="21" y2="3"></line>
-          </svg>
           <span>추천사이트</span>
+          <!-- Draw outline 라인들 -->
+          <span class="line-top"></span>
+          <span class="line-right"></span>
+          <span class="line-bottom"></span>
+          <span class="line-left"></span>
         </a>
       </div>
     </div>
