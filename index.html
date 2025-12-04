@@ -138,66 +138,30 @@
       height: 100%;
     }
 
-    /* 코드 입력 버튼 (호버 애니메이션) */
+    /* 코드 입력 버튼 (헤더) */
     .input-btn {
       display: flex;
       align-items: center;
-      gap: 8px;
-      height: 40px;
-      padding: 0 16px 0 12px;
-      background: #e5e5e5;
-      color: #000;
-      border: none;
-      border-radius: 9999px;
+      gap: 6px;
+      padding: 8px 16px;
+      background: #262626;
+      color: #e5e5e5;
+      border: 1px solid #404040;
+      border-radius: 8px;
       font-size: 14px;
-      font-weight: 400;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.2s ease;
     }
 
     .input-btn:hover {
-      background: #000;
+      background: #333;
+      border-color: #525252;
       color: #fff;
-      padding-left: 8px;
     }
 
-    .input-btn:active {
-      background: #404040;
-    }
-
-    .input-btn .icon-circle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px;
-      background: #000;
-      border-radius: 9999px;
-      transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .input-btn:hover .icon-circle {
-      background: #fff;
-    }
-
-    .input-btn .arrow-icon {
-      width: 0;
-      height: 0;
-      font-size: 0;
-      color: transparent;
-      transform: translateX(-200%);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .input-btn:hover .arrow-icon {
-      width: 1em;
-      height: 1em;
-      font-size: 16px;
-      color: #000;
-      transform: translateX(0);
-    }
-
-    .input-btn:active .arrow-icon {
-      transform: rotate(-45deg);
+    .input-btn svg {
+      flex-shrink: 0;
     }
 
     .toolbar-right {
@@ -363,26 +327,130 @@
       font-weight: 300;
     }
 
+    /* 히어로 버튼 (Wet Paint 스타일) */
     .empty-preview-content .grid-btn {
+      position: relative;
       pointer-events: auto;
-      background: #818cf8;
-      padding: 10px 20px;
+      background: #6366f1;
+      padding: 12px 24px;
       font-size: 16px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #0a0a0a;
+      font-weight: 600;
+      color: #fff;
       border: none;
+      border-radius: 6px;
       cursor: pointer;
-      mix-blend-mode: difference;
-      transition: transform 0.2s;
+      transition: background 0.2s ease;
     }
 
     .empty-preview-content .grid-btn:hover {
-      transform: scale(1.05);
+      background: #4f46e5;
     }
 
-    .empty-preview-content .grid-btn:active {
-      transform: scale(0.98);
+    /* 물감 방울 컨테이너 */
+    .grid-btn .drip {
+      position: absolute;
+      top: 99%;
+      transform-origin: top;
+    }
+
+    .grid-btn .drip-1 { left: 10%; }
+    .grid-btn .drip-2 { left: 30%; }
+    .grid-btn .drip-3 { left: 57%; }
+    .grid-btn .drip-4 { left: 85%; }
+
+    /* 물감 줄기 */
+    .grid-btn .drip-bar {
+      width: 8px;
+      border-radius: 0 0 9999px 9999px;
+      background: #6366f1;
+      transition: background 0.2s ease;
+    }
+
+    .grid-btn:hover .drip-bar {
+      background: #4f46e5;
+    }
+
+    .grid-btn .drip-1 .drip-bar { height: 24px; }
+    .grid-btn .drip-2 .drip-bar { height: 20px; }
+    .grid-btn .drip-3 .drip-bar { height: 10px; }
+    .grid-btn .drip-4 .drip-bar { height: 16px; }
+
+    /* 물감 연결 곡선 (왼쪽) */
+    .grid-btn .drip-curve-left {
+      position: absolute;
+      right: 100%;
+      top: 0;
+      width: 6px;
+      height: 6px;
+      transform: rotate(90deg);
+    }
+
+    .grid-btn .drip-curve-left path {
+      fill: #6366f1;
+      transition: fill 0.2s ease;
+    }
+
+    .grid-btn:hover .drip-curve-left path {
+      fill: #4f46e5;
+    }
+
+    /* 물감 연결 곡선 (오른쪽) */
+    .grid-btn .drip-curve-right {
+      position: absolute;
+      left: 100%;
+      top: 0;
+      width: 6px;
+      height: 6px;
+    }
+
+    .grid-btn .drip-curve-right path {
+      fill: #6366f1;
+      transition: fill 0.2s ease;
+    }
+
+    .grid-btn:hover .drip-curve-right path {
+      fill: #4f46e5;
+    }
+
+    /* 물감 방울 (떨어지는 원) */
+    .grid-btn .drip-drop {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #6366f1;
+      opacity: 0;
+      animation: drip-fall-hero 2.5s ease-in-out infinite;
+      transition: background 0.2s ease;
+    }
+
+    .grid-btn:hover .drip-drop {
+      background: #4f46e5;
+    }
+
+    .grid-btn .drip-1 .drip-drop { animation-delay: 0s; }
+    .grid-btn .drip-2 .drip-drop { animation-delay: 0.8s; }
+    .grid-btn .drip-3 .drip-drop { animation-delay: 1.5s; }
+    .grid-btn .drip-4 .drip-drop { animation-delay: 0.4s; }
+
+    @keyframes drip-fall-hero {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(0);
+      }
+      10% {
+        opacity: 1;
+      }
+      85% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(40px);
+      }
     }
 
     /* 분석 패널 (슬라이드) */
@@ -841,13 +909,8 @@
       }
 
       .input-btn {
-        height: 36px;
         font-size: 13px;
-        padding: 0 12px 0 8px;
-      }
-
-      .input-btn .icon-circle {
-        padding: 3px;
+        padding: 6px 12px;
       }
 
       .analyze-btn {
@@ -939,12 +1002,12 @@
         font-size: 16px;
       }
 
-      .input-btn > span:last-child {
+      .input-btn span {
         display: none;
       }
 
       .input-btn {
-        padding: 0 8px;
+        padding: 6px 10px;
       }
 
       .recommend-btn > span:first-child {
@@ -984,12 +1047,10 @@
       <div class="toolbar-right">
         <!-- 코드 입력 버튼 -->
         <button class="input-btn" id="openModalBtn">
-          <span class="icon-circle">
-            <svg class="arrow-icon" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
           <span>코드 입력</span>
         </button>
 
@@ -1022,7 +1083,34 @@
           <div class="empty-preview-content">
             <h1>Paste Your Code</h1>
             <p>HTML 컴포넌트 코드를 붙여넣으면 미리보기와 함께 React, HTML 코드를 추출할 수 있습니다</p>
-            <button class="grid-btn" id="emptyAddBtn">코드 입력하기</button>
+            <button class="grid-btn" id="emptyAddBtn">
+              코드 입력하기
+              <!-- 물감 방울들 -->
+              <div class="drip drip-1">
+                <div class="drip-bar"></div>
+                <svg class="drip-curve-right" viewBox="0 0 6 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.4 0H0V5.4C0 2.41765 2.41766 0 5.4 0Z"></path></svg>
+                <svg class="drip-curve-left" viewBox="0 0 6 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.4 0H0V5.4C0 2.41765 2.41766 0 5.4 0Z"></path></svg>
+                <div class="drip-drop"></div>
+              </div>
+              <div class="drip drip-2">
+                <div class="drip-bar"></div>
+                <svg class="drip-curve-right" viewBox="0 0 6 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.4 0H0V5.4C0 2.41765 2.41766 0 5.4 0Z"></path></svg>
+                <svg class="drip-curve-left" viewBox="0 0 6 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.4 0H0V5.4C0 2.41765 2.41766 0 5.4 0Z"></path></svg>
+                <div class="drip-drop"></div>
+              </div>
+              <div class="drip drip-3">
+                <div class="drip-bar"></div>
+                <svg class="drip-curve-right" viewBox="0 0 6 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.4 0H0V5.4C0 2.41765 2.41766 0 5.4 0Z"></path></svg>
+                <svg class="drip-curve-left" viewBox="0 0 6 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.4 0H0V5.4C0 2.41765 2.41766 0 5.4 0Z"></path></svg>
+                <div class="drip-drop"></div>
+              </div>
+              <div class="drip drip-4">
+                <div class="drip-bar"></div>
+                <svg class="drip-curve-right" viewBox="0 0 6 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.4 0H0V5.4C0 2.41765 2.41766 0 5.4 0Z"></path></svg>
+                <svg class="drip-curve-left" viewBox="0 0 6 6" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.4 0H0V5.4C0 2.41765 2.41766 0 5.4 0Z"></path></svg>
+                <div class="drip-drop"></div>
+              </div>
+            </button>
           </div>
         </div>
         <iframe class="preview-iframe hidden" id="previewFrame"></iframe>
