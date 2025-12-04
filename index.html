@@ -138,73 +138,67 @@
       height: 100%;
     }
 
-    /* 코드 입력 버튼 (Encrypt 스타일) */
+    /* 코드 입력 버튼 (호버 링크 스타일) */
     .input-btn {
-      position: relative;
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 16px;
-      background: #404040;
-      color: #d4d4d4;
-      border: 1px solid #525252;
-      border-radius: 8px;
-      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+      height: 40px;
+      padding: 0 16px 0 12px;
+      background: #e5e5e5;
+      color: #000;
+      border: none;
+      border-radius: 9999px;
       font-size: 14px;
-      font-weight: 500;
-      text-transform: uppercase;
+      font-weight: 400;
       cursor: pointer;
-      overflow: hidden;
-      transition: color 0.3s ease, transform 0.1s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .input-btn:hover {
-      color: #a5b4fc;
+      background: #000;
+      color: #fff;
+      padding-left: 8px;
     }
 
     .input-btn:active {
-      transform: scale(0.975);
+      background: #404040;
     }
 
-    .input-btn .btn-content {
-      position: relative;
-      z-index: 10;
+    .input-btn .icon-circle {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      padding: 4px;
+      background: #000;
+      border-radius: 9999px;
+      transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .input-btn svg {
-      flex-shrink: 0;
+    .input-btn:hover .icon-circle {
+      background: #fff;
     }
 
-    /* 글리치 그라데이션 효과 */
-    .input-btn .glitch-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      transform: scaleX(1.25) scaleY(1.25);
-      background: linear-gradient(to top,
-        transparent 40%,
-        rgba(129, 140, 248, 0.8) 50%,
-        transparent 60%
-      );
-      opacity: 0;
-      animation: glitch-move 1s linear infinite;
-      transition: opacity 0.3s ease;
+    .input-btn .arrow-icon {
+      display: block;
+      width: 0;
+      height: 0;
+      font-size: 0;
+      color: transparent;
+      transform: translateX(-200%);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .input-btn:hover .glitch-bg {
-      opacity: 1;
+    .input-btn:hover .arrow-icon {
+      width: 16px;
+      height: 16px;
+      font-size: 16px;
+      color: #000;
+      transform: translateX(0);
     }
 
-    @keyframes glitch-move {
-      0% {
-        transform: scaleX(1.25) scaleY(1.25) translateY(100%);
-      }
-      100% {
-        transform: scaleX(1.25) scaleY(1.25) translateY(-100%);
-      }
+    .input-btn:active .arrow-icon {
+      transform: rotate(-45deg);
     }
 
     .toolbar-right {
@@ -1045,16 +1039,29 @@
         font-size: 16px;
       }
 
-      .input-btn .encrypt-text {
+      .input-btn > span:last-child {
         display: none;
       }
 
       .input-btn {
-        padding: 6px 10px;
+        height: 36px;
+        padding: 0 10px;
       }
 
-      .input-btn .glitch-bg {
-        display: none;
+      .input-btn .icon-circle {
+        padding: 3px;
+      }
+
+      .input-btn .arrow-icon {
+        width: 14px !important;
+        height: 14px !important;
+        font-size: 14px !important;
+        color: #fff !important;
+        transform: translateX(0) !important;
+      }
+
+      .input-btn:hover .arrow-icon {
+        color: #000 !important;
       }
 
       .recommend-btn > span:first-child {
@@ -1094,14 +1101,13 @@
       <div class="toolbar-right">
         <!-- 코드 입력 버튼 -->
         <button class="input-btn" id="openModalBtn">
-          <div class="btn-content">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="16 18 22 12 16 6"></polyline>
-              <polyline points="8 6 2 12 8 18"></polyline>
+          <span class="icon-circle">
+            <svg class="arrow-icon" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
-            <span class="encrypt-text">코드 입력</span>
-          </div>
-          <span class="glitch-bg"></span>
+          </span>
+          <span>코드 입력</span>
         </button>
 
         <!-- 분석 버튼 -->
@@ -1329,43 +1335,6 @@
 
     openModalBtn.addEventListener('click', openModal);
     emptyAddBtn.addEventListener('click', openModal);
-
-    // Encrypt 텍스트 스크램블 효과
-    const encryptText = document.querySelector('.encrypt-text');
-    const TARGET_TEXT = '코드 입력';
-    const CHARS = '!@#$%^&*():{};|,.<>/?가나다라마바사아자차카타파하';
-    const CYCLES_PER_LETTER = 2;
-    const SHUFFLE_TIME = 50;
-    let scrambleInterval = null;
-
-    function scrambleText() {
-      let pos = 0;
-      scrambleInterval = setInterval(() => {
-        const scrambled = TARGET_TEXT.split('')
-          .map((char, index) => {
-            if (pos / CYCLES_PER_LETTER > index) {
-              return char;
-            }
-            if (char === ' ') return ' ';
-            const randomChar = CHARS[Math.floor(Math.random() * CHARS.length)];
-            return randomChar;
-          })
-          .join('');
-        encryptText.textContent = scrambled;
-        pos++;
-        if (pos >= TARGET_TEXT.length * CYCLES_PER_LETTER) {
-          stopScramble();
-        }
-      }, SHUFFLE_TIME);
-    }
-
-    function stopScramble() {
-      clearInterval(scrambleInterval);
-      encryptText.textContent = TARGET_TEXT;
-    }
-
-    openModalBtn.addEventListener('mouseenter', scrambleText);
-    openModalBtn.addEventListener('mouseleave', stopScramble);
     modalClose.addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', (e) => {
       if (e.target === modalOverlay) closeModal();
