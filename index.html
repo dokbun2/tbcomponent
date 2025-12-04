@@ -57,6 +57,31 @@
       opacity: 0.8;
     }
 
+    /* 추천사이트 버튼 */
+    .recommend-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .recommend-btn:hover {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .recommend-btn svg {
+      flex-shrink: 0;
+    }
+
     .toolbar-right {
       display: flex;
       align-items: center;
@@ -878,6 +903,14 @@
     <div class="toolbar">
       <div class="toolbar-left">
         <a href="index.html" class="logo">TB Component Viewer</a>
+        <a href="https://www.hover.dev/" target="_blank" class="recommend-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          <span>추천사이트</span>
+        </a>
       </div>
 
       <div class="toolbar-right">

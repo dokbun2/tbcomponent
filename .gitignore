@@ -10,3 +10,4 @@ shifting-dropdown.html
 
 # OS files
 .DS_Store
+.vercel
